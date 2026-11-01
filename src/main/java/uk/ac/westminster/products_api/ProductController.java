@@ -17,11 +17,13 @@ public class ProductController {
 
     @GetMapping("/products/{id}")
     public Product getProductById(@PathVariable Long id) {
+
         return productService.getProductById(id).orElse(null);
     }
 
+    // Product is abstract, so Jackson can't build it from JSON; use a concrete subclass for now
     @PostMapping("/products")
-    public Product addProduct(@RequestBody Product product) {
+    public Product addProduct(@RequestBody DigitalProduct product) {
         return productService.addProduct(product);
     }
 
@@ -33,5 +35,10 @@ public class ProductController {
     @GetMapping("/products/search")
     public List<Product> search(@RequestParam String name) {
         return productService.findByName(name);
+    }
+
+    @GetMapping("/products/summaries")
+    public List<String> getSummaries(){
+        return productService.getAllSummaries();
     }
 }
